@@ -7,28 +7,50 @@
     
     <mat-card-content>
         <div class="table-actions">
-            <mat-table [dataSource]="dataSource">
+            <mat-table [dataSource]="isLoading() ? skeletonData : dataSource">
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">{{employee.name}}</mat-cell>
+                    <mat-cell *matCellDef="let employee">
+                        @if (isLoading()) {
+                            <div class="skeleton-item"></div>
+                        } @else {
+                            <span>{{employee.name}}</span>
+                        }
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
                     <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">{{employee.email}}</mat-cell>
+                    <mat-cell *matCellDef="let employee">
+                        @if (isLoading()) {
+                            <div class="skeleton-item"></div>
+                        } @else {
+                            <span>{{employee.email}}</span>
+                        }
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="dob">
                     <mat-header-cell *matHeaderCellDef>Dob</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">{{employee.dob}}</mat-cell>
+                    <mat-cell *matCellDef="let employee">
+                        @if (isLoading()) {
+                            <div class="skeleton-item"></div>
+                        } @else {
+                            <span>{{employee.dob}}</span>
+                        }
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="favourite">
                     <mat-header-cell *matHeaderCellDef>Favourite?</mat-header-cell>
                     <mat-cell *matCellDef="let employee">
-                    <button mat-icon-button color="primary">
-                        <mat-icon>star</mat-icon>
-                    </button>
+                        @if (isLoading()) {
+                            <div class="skeleton-item"></div>
+                        } @else {
+                            <button mat-icon-button color="primary">
+                                <mat-icon>star</mat-icon>
+                            </button>
+                        }
                     </mat-cell>
                 </ng-container>
 

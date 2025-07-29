@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,14 +21,18 @@ export interface Employee {
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['name', 'email', 'dob', 'favourite'];
   dataSource: UserList[] = [];
+  skeletonData: any[] = Array(5).fill({});
+  isLoading = signal(true);
   employeeService = inject(EmployeeService);
 
   ngOnInit(){
+    this.isLoading.set(true);
     this.employeeService.getEmployeeList().subscribe(x => {
       this.dataSource = x;
+      this.isLoading.set(false);
     })
   }
 }
