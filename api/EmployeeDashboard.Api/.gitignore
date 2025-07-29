@@ -1,0 +1,80 @@
+# Ignore build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Auto-generated VSCode or VS IDE folders
+.vscode/
+.idea/
+.vs/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Rider
+*.sln.iml
+
+# DotCover
+.idea/.idea.DotSettings
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Optional: when using dotnet pack
+*.symbols.nupkg
+
+# Mac OS metadata
+.DS_Store
+
+# Windows metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Web config transforms
+*.config.transform
+
+# Entity Framework
+Migrations/
+
+# Local .NET secrets
+secrets.json
+
+# Others
+*.dbmdl
+*.bak
+*.mdf
+*.ldf
+*.sql
+
+# Local environments
+.env
+.env.*
+
+# Publish output
+publish/
