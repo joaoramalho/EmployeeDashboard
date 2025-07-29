@@ -28,7 +28,7 @@ public record Location(
     string City,
     string State,
     string Country,
-    int Postcode,
+    object Postcode,
     Coordinates Coordinates,
     Timezone Timezone
 );

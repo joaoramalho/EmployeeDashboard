@@ -1,4 +1,5 @@
 using EmployeeDashboard.Services;
+using EmployeeDashboard.Services.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
+builder.Services.AddTransient<IMapper, Mapper>();
 
 string? usersApi = builder.Configuration["UsersApi:Name"];
 ArgumentException.ThrowIfNullOrEmpty(usersApi);
