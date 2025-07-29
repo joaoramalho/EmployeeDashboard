@@ -3,8 +3,17 @@ using EmployeeDashboard.Services.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+//For demonstration purposes, we are allowing all origins, methods, and headers.
+// In production, we should restrict this to specific origins and methods as needed.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
@@ -26,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-//app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();

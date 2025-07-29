@@ -1,0 +1,27 @@
+.dashboard-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-card {
+  margin-bottom: 20px;
+}
+
+.table-actions {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.mat-column-id {
+  flex: 0 0 80px;
+}
+
+.mat-column-actions {
+  flex: 0 0 120px;
+}

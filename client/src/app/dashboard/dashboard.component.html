@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+    <mat-card class="dashboard-card">
+    <mat-card-header>
+        <mat-card-title>Employee Dashboard</mat-card-title>
+        <mat-card-subtitle>Manage your employees</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+        <div class="table-actions">
+            <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let employee">{{employee.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                    <mat-cell *matCellDef="let employee">{{employee.email}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dob">
+                    <mat-header-cell *matHeaderCellDef>Dob</mat-header-cell>
+                    <mat-cell *matCellDef="let employee">{{employee.dob}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="favourite">
+                    <mat-header-cell *matHeaderCellDef>Favourite?</mat-header-cell>
+                    <mat-cell *matCellDef="let employee">
+                    <button mat-icon-button color="primary">
+                        <mat-icon>star</mat-icon>
+                    </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </mat-card-content>
+    </mat-card>
+</div>

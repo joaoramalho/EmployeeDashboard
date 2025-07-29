@@ -9,10 +9,10 @@ namespace EmployeeDashboard.Api.Controllers;
 [Route("api/[controller]")]
 public class EmployeesController(IEmployeesService employeesService, IMapper mapper) : ControllerBase
 {
-    // GET
-    public async Task<ActionResult<IEnumerable<UserListDto>>> Index()
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<UserListDto>>> GetUserList(int? pageSize)
     {
-        var users = await employeesService.GetUsers(10);
+        var users = await employeesService.GetUsers(pageSize ?? 1);
         var userListDtos = users.Results.Select(mapper.MapToUserListDto);
         return Ok(userListDtos);
     }

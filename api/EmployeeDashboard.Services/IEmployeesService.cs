@@ -4,5 +4,5 @@ namespace EmployeeDashboard.Services;
 
 public interface IEmployeesService
 { 
-    Task<UserApiResponse> GetUsers(int? pageSize);
+    Task<UserApiResponse> GetUsers(int pageSize);
 }

@@ -7,7 +7,7 @@ namespace EmployeeDashboard.Services;
 
 public sealed class EmployeesService(IHttpClientFactory httpClientFactory, IConfiguration configuration) : IEmployeesService
 {
-    public async Task<UserApiResponse> GetUsers(int? pageSize)
+    public async Task<UserApiResponse> GetUsers(int pageSize)
     {
         string? usersApi = configuration["UsersApi:Name"];
         ArgumentException.ThrowIfNullOrEmpty(usersApi);
@@ -16,7 +16,7 @@ public sealed class EmployeesService(IHttpClientFactory httpClientFactory, IConf
         {
             var client = httpClientFactory.CreateClient(usersApi);
             var response = await client.GetFromJsonAsync<UserApiResponse>(
-                $"?results={pageSize ?? 1}", new JsonSerializerOptions(JsonSerializerOptions.Web));
+                $"?results={pageSize}", new JsonSerializerOptions(JsonSerializerOptions.Web));
             return response ?? new UserApiResponse(new List<User>());
         }
         catch (Exception e)
