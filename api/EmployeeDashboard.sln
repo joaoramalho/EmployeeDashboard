@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Api", "EmployeeDashboard.Api\EmployeeDashboard.Api.csproj", "{FA934BB7-CE45-4415-B23D-3E6621740E4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Services", "EmployeeDashboard.Services\EmployeeDashboard.Services.csproj", "{F958C5B6-A047-44C6-9CFD-93D9688BCCEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Data", "EmployeeDashboard.Data\EmployeeDashboard.Data.csproj", "{46097435-149A-41E5-8B9D-B7192D5A2937}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{FA934BB7-CE45-4415-B23D-3E6621740E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA934BB7-CE45-4415-B23D-3E6621740E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA934BB7-CE45-4415-B23D-3E6621740E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F958C5B6-A047-44C6-9CFD-93D9688BCCEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F958C5B6-A047-44C6-9CFD-93D9688BCCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F958C5B6-A047-44C6-9CFD-93D9688BCCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F958C5B6-A047-44C6-9CFD-93D9688BCCEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46097435-149A-41E5-8B9D-B7192D5A2937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46097435-149A-41E5-8B9D-B7192D5A2937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46097435-149A-41E5-8B9D-B7192D5A2937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46097435-149A-41E5-8B9D-B7192D5A2937}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
