@@ -13,6 +13,12 @@
                 (retry)="onRetry()">
             </app-error-retry>
         } @else {
+            <div class="form-container">
+                <mat-form-field>
+                    <mat-label>Search</mat-label>
+                    <input matInput placeholder="Search name" [formControl]="searchInput" />
+                </mat-form-field>
+            </div>
             <div class="table-actions">
                 <mat-table [dataSource]="isLoading() ? skeletonData : dataSource">
                     <ng-container matColumnDef="name">

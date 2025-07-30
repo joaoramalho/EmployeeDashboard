@@ -8,6 +8,10 @@ import { UserList } from '../model/user-list';
 import { EmployeeService } from '../services/employee.service';
 import { ErrorRetryComponent } from '../error-retry/error-retry.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { debounceTime } from 'rxjs';
 
 export interface Employee {
   id: number;
@@ -20,13 +24,15 @@ export interface Employee {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatTableModule, MatButtonModule, MatIconModule, ErrorRetryComponent],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatCardModule, MatTableModule, MatButtonModule, MatIconModule, ErrorRetryComponent],
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"]
 })
 export class DashboardComponent implements OnInit {
+  searchInput = new FormControl('');
   displayedColumns: string[] = ['name', 'email', 'dob', 'favourite'];
   dataSource: UserList[] = [];
+  originalData: UserList[] = [];
   skeletonData: any[] = Array(5).fill({});
   isLoading = signal(true);
   hasError = signal(false);
@@ -35,6 +41,12 @@ export class DashboardComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(){
+    this.searchInput.valueChanges
+      .pipe(
+        debounceTime(500),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe(value => this.filter(value));
+
     this.loadEmployees();
   }
 
@@ -46,6 +58,7 @@ export class DashboardComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: userList => {
+          this.originalData = userList;
           this.dataSource = userList;
           this.isLoading.set(false);
         },
@@ -63,5 +76,15 @@ export class DashboardComponent implements OnInit {
 
   onRowClick(user: UserList) {
     this.router.navigate(['/user-profile', user.email]);
+  }
+
+  filter(searchTerm: string | null){
+    if(!searchTerm || searchTerm.trim() === ''){
+      this.dataSource = this.originalData;
+    } else {
+      this.dataSource = this.originalData.filter(x => 
+        x.name.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
+      );
+    }
   }
 }
