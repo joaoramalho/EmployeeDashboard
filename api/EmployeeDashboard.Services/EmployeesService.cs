@@ -16,7 +16,7 @@ public sealed class EmployeesService(IHttpClientFactory httpClientFactory, IConf
         {
             var client = httpClientFactory.CreateClient(usersApi);
             var response = await client.GetFromJsonAsync<UserApiResponse>(
-                $"?results={pageSize}", new JsonSerializerOptions(JsonSerializerOptions.Web));
+                $"?results={pageSize}&inc=name,email,dob", new JsonSerializerOptions(JsonSerializerOptions.Web));
             return response ?? new UserApiResponse(new List<User>());
         }
         catch (Exception e)
