@@ -1,0 +1,57 @@
+<div class="favourites-container">
+  <mat-card class="favourites-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>star</mat-icon>
+        Favourite Employees
+      </mat-card-title>
+      <mat-card-subtitle>Your starred team members</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isLoading()) {
+        <div class="loading-state">
+          <mat-icon>hourglass_empty</mat-icon>
+          <p>Loading favourite employees...</p>
+        </div>
+      } @else if (favouriteEmployees().length === 0) {
+        <div class="empty-state">
+          <mat-icon>star_border</mat-icon>
+          <h3>No Favourite Employees</h3>
+          <p>You haven't marked any employees as favourites yet.</p>
+          <button mat-raised-button color="primary" routerLink="/dashboard">
+            Browse Employees
+          </button>
+        </div>
+      } @else {
+        <mat-list class="favourites-list">
+          @for (employee of favouriteEmployees(); track employee.email) {
+            <mat-list-item class="favourite-item">
+              <mat-icon matListItemIcon class="star-icon">star</mat-icon>
+              
+              <div matListItemTitle class="employee-info">
+                <strong>{{ employee.name }}</strong>
+              </div>
+              
+              <div matListItemLine class="employee-details">
+                <span>{{ employee.email }}</span>
+                <span class="separator">"</span>
+                <span>{{ employee.dob | date:'mediumDate' }}</span>
+              </div>
+
+              <button 
+                mat-icon-button 
+                matListItemMeta 
+                (click)="viewProfile(employee)"
+                aria-label="View profile">
+                <mat-icon>person</mat-icon>
+              </button>
+            </mat-list-item>
+            
+            <mat-divider></mat-divider>
+          }
+        </mat-list>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -9,5 +9,9 @@ export const routes: Routes = [
   { 
     path: 'user-profile/:email', 
     loadComponent: () => import('./user-profile/user-profile.component').then(m => m.UserProfileComponent)
+  },
+  { 
+    path: 'favourites', 
+    loadComponent: () => import('./favourites/favourites.component').then(m => m.FavouritesComponent)
   }
 ];

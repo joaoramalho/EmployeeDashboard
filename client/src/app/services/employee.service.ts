@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { UserList } from "../model/user-list";
 import { UserDetail } from "../model/user-detail";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap, of } from "rxjs";
 
 @Injectable({ providedIn: 'root'})
 export class EmployeeService {
@@ -15,8 +15,19 @@ export class EmployeeService {
     }
 
     loadEmployees(): Observable<UserList[]> {
+        const storage = localStorage.getItem('Employees');
+        
+        if(storage){
+            const employees = JSON.parse(storage) as UserList[];
+            this.employeeList$.next(employees);
+            return this.employeeList$;
+        }
+
         return this.getEmployeeList().pipe(
-            tap(employees => this.employeeList$.next(employees))
+            tap(employees => {
+                this.saveFavouritesToStorage(employees);
+                this.employeeList$.next(employees);
+            })
         );
     }
 
@@ -26,6 +37,18 @@ export class EmployeeService {
             emp.email === email ? { ...emp, favourite } : emp
         );
         this.employeeList$.next(updatedEmployees);
+        
+        // Persist to localStorage
+        this.saveFavouritesToStorage(updatedEmployees);
+    }
+
+    private saveFavouritesToStorage(employees: UserList[]): void {
+        localStorage.setItem('Employees', JSON.stringify(employees));
+    }
+
+    loadFavouritesFromStorage(): string[] {
+        const stored = localStorage.getItem('Employees');
+        return stored ? JSON.parse(stored) : [];
     }
 
     getEmployeeDetail(email: string): Observable<UserDetail>{
