@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,6 +32,7 @@ export class DashboardComponent implements OnInit {
   hasError = signal(false);
   employeeService = inject(EmployeeService);
   private router = inject(Router);
+  private snackbar = inject(MatSnackBar);
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(){
@@ -91,5 +93,6 @@ export class DashboardComponent implements OnInit {
   toggleFavourite(event: Event, employee: UserList){
     event.stopPropagation();
     this.employeeService.updateEmployeeFavourite(employee.email, !employee.favourite);
+    this.snackbar.open(`${employee.name} is now ${!employee.favourite ? 'a favourite' : 'unfavourite'}`, '', { duration: 5000 });
   }
 }

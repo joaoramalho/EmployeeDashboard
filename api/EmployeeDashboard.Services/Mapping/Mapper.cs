@@ -13,22 +13,8 @@ public class Mapper : IMapper
             Favourite: false,
             Name: $"{user.Name.First} {user.Name.Last}",
             Email: user.Email,
-            Dob: new DateTimeOffset(user.Dob.Date));
-    }
-
-    public UserDetailDto MapToUserDetailDto(User user)
-    {
-        ArgumentNullException.ThrowIfNull(user);
-
-        return new UserDetailDto(
-            Favourite: false,
-            Title: user.Name.Title,
-            FirstName: user.Name.First,
-            LastName: user.Name.Last,
-            Email: user.Email,
-            Phone: user.Phone,
+            PictureUrl: user.Picture.Medium,
             Cell: user.Cell,
-            Dob: new DateTimeOffset(user.Dob.Date),
-            PictureUrl: user.Picture?.Large ?? string.Empty);
+            Dob: new DateTimeOffset(user.Dob.Date));
     }
 }

@@ -6,5 +6,4 @@ namespace EmployeeDashboard.Services.Mapping;
 public interface IMapper
 {
     UserListDto MapToUserListDto(User user);
-    UserDetailDto MapToUserDetailDto(User user);
 }
