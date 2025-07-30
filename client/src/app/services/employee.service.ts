@@ -2,14 +2,30 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { UserList } from "../model/user-list";
 import { UserDetail } from "../model/user-detail";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 
 @Injectable({ providedIn: 'root'})
 export class EmployeeService {
+    private employeeList$ = new BehaviorSubject<UserList[]>([]);
+    public employees$ = this.employeeList$.asObservable();
     private http = inject(HttpClient);
 
     getEmployeeList(): Observable<UserList[]>{
         return this.http.get<UserList[]>('http://localhost:5294/api/employees', { params: { pageSize: 10 }});
+    }
+
+    loadEmployees(): Observable<UserList[]> {
+        return this.getEmployeeList().pipe(
+            tap(employees => this.employeeList$.next(employees))
+        );
+    }
+
+    updateEmployeeFavourite(email: string, favourite: boolean): void {
+        const currentEmployees = this.employeeList$.value;
+        const updatedEmployees = currentEmployees.map(emp => 
+            emp.email === email ? { ...emp, favourite } : emp
+        );
+        this.employeeList$.next(updatedEmployees);
     }
 
     getEmployeeDetail(email: string): Observable<UserDetail>{

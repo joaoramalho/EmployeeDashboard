@@ -12,11 +12,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatCardModule, MatTableModule, MatButtonModule, MatIconModule, ErrorRetryComponent],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatCardModule, MatTableModule, MatButtonModule, MatIconModule, ErrorRetryComponent],
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"]
 })
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
   searchInput = new FormControl('');
   displayedColumns: string[] = ['name', 'email', 'dob', 'favourite'];
   dataSource: UserList[] = [];
-  originalData: UserList[] = [];
+  filteredData: UserList[] = [];
   skeletonData: any[] = Array(5).fill({});
   isLoading = signal(true);
   hasError = signal(false);
@@ -39,27 +40,34 @@ export class DashboardComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       ).subscribe(value => this.filter(value));
 
-    this.loadEmployees();
+    this.employeeService.employees$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(employees => {
+        this.dataSource = employees;
+        this.filteredData = employees;
+        this.isLoading.set(false);
+        if (employees.length === 0) {
+          this.loadEmployees();
+        }
+      });
   }
 
-  loadEmployees() {
+  private loadEmployees() {
     this.isLoading.set(true);
     this.hasError.set(false);
     
-    this.employeeService.getEmployeeList()
+    this.employeeService.loadEmployees()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: userList => {
-          this.originalData = userList;
-          this.dataSource = userList;
+        next: () => {
           this.isLoading.set(false);
         },
-        error: error => {
+        error: (error) => {
           console.error('Error loading employees:', error);
           this.isLoading.set(false);
           this.hasError.set(true);
         }
-    });
+      });
   }
 
   onRetry() {
@@ -72,9 +80,9 @@ export class DashboardComponent implements OnInit {
 
   filter(searchTerm: string | null){
     if(!searchTerm || searchTerm.trim() === ''){
-      this.dataSource = this.originalData;
+      this.filteredData = this.dataSource;
     } else {
-      this.dataSource = this.originalData.filter(x => 
+      this.filteredData = this.dataSource.filter(x => 
         x.name.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
     }
@@ -82,25 +90,6 @@ export class DashboardComponent implements OnInit {
 
   toggleFavourite(event: Event, employee: UserList){
     event.stopPropagation();
-    
-    // Update originalData first
-    const originalIndex = this.originalData.findIndex(x => x.email === employee.email);
-    if(originalIndex >= 0){
-      this.originalData[originalIndex] = {
-        ...this.originalData[originalIndex],
-        favourite: !this.originalData[originalIndex].favourite
-      };
-    }
-    
-    // Update dataSource with new array reference to trigger change detection
-    const employeeIndex = this.dataSource.findIndex(x => x.email === employee.email);
-    if(employeeIndex >= 0){
-      const updatedDataSource = [...this.dataSource];
-      updatedDataSource[employeeIndex] = {
-        ...updatedDataSource[employeeIndex],
-        favourite: !updatedDataSource[employeeIndex].favourite
-      };
-      this.dataSource = updatedDataSource;
-    }
+    this.employeeService.updateEmployeeFavourite(employee.email, !employee.favourite);
   }
 }
