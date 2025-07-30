@@ -6,58 +6,66 @@
     </mat-card-header>
     
     <mat-card-content>
-        <div class="table-actions">
-            <mat-table [dataSource]="isLoading() ? skeletonData : dataSource">
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">
-                        @if (isLoading()) {
-                            <div class="skeleton-item"></div>
-                        } @else {
-                            <span>{{employee.name}}</span>
-                        }
-                    </mat-cell>
-                </ng-container>
+        @if (hasError()) {
+            <app-error-retry 
+                [title]="'Failed to Load Employees'"
+                [message]="'Unable to fetch employee data from the server. Please check your connection and try again.'"
+                (retry)="onRetry()">
+            </app-error-retry>
+        } @else {
+            <div class="table-actions">
+                <mat-table [dataSource]="isLoading() ? skeletonData : dataSource">
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let employee">
+                            @if (isLoading()) {
+                                <div class="skeleton-item"></div>
+                            } @else {
+                                <span>{{employee.name}}</span>
+                            }
+                        </mat-cell>
+                    </ng-container>
 
-                <ng-container matColumnDef="email">
-                    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">
-                        @if (isLoading()) {
-                            <div class="skeleton-item"></div>
-                        } @else {
-                            <span>{{employee.email}}</span>
-                        }
-                    </mat-cell>
-                </ng-container>
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                        <mat-cell *matCellDef="let employee">
+                            @if (isLoading()) {
+                                <div class="skeleton-item"></div>
+                            } @else {
+                                <span>{{employee.email}}</span>
+                            }
+                        </mat-cell>
+                    </ng-container>
 
-                <ng-container matColumnDef="dob">
-                    <mat-header-cell *matHeaderCellDef>Dob</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">
-                        @if (isLoading()) {
-                            <div class="skeleton-item"></div>
-                        } @else {
-                            <span>{{employee.dob}}</span>
-                        }
-                    </mat-cell>
-                </ng-container>
+                    <ng-container matColumnDef="dob">
+                        <mat-header-cell *matHeaderCellDef>Dob</mat-header-cell>
+                        <mat-cell *matCellDef="let employee">
+                            @if (isLoading()) {
+                                <div class="skeleton-item"></div>
+                            } @else {
+                                <span>{{employee.dob}}</span>
+                            }
+                        </mat-cell>
+                    </ng-container>
 
-                <ng-container matColumnDef="favourite">
-                    <mat-header-cell *matHeaderCellDef>Favourite?</mat-header-cell>
-                    <mat-cell *matCellDef="let employee">
-                        @if (isLoading()) {
-                            <div class="skeleton-item"></div>
-                        } @else {
-                            <button mat-icon-button color="primary">
-                                <mat-icon>star</mat-icon>
-                            </button>
-                        }
-                    </mat-cell>
-                </ng-container>
+                    <ng-container matColumnDef="favourite">
+                        <mat-header-cell *matHeaderCellDef>Favourite?</mat-header-cell>
+                        <mat-cell *matCellDef="let employee">
+                            @if (isLoading()) {
+                                <div class="skeleton-item"></div>
+                            } @else {
+                                <button mat-icon-button color="primary">
+                                    <mat-icon>star</mat-icon>
+                                </button>
+                            }
+                        </mat-cell>
+                    </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-        </div>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable-row"></mat-row>
+                </mat-table>
+            </div>
+        }
     </mat-card-content>
     </mat-card>
 </div>

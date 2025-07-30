@@ -5,5 +5,9 @@ export const routes: Routes = [
   { 
     path: 'dashboard', 
     loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
+  { 
+    path: 'user-profile/:email', 
+    loadComponent: () => import('./user-profile/user-profile.component').then(m => m.UserProfileComponent)
   }
 ];
