@@ -7,11 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '../services/employee.service';
 import { UserList } from '../model/user-list';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserNotesCardComponent } from '../user-notes-card/user-notes-card.component';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatButtonModule, DatePipe],
+  imports: [MatCardModule, MatIconModule, MatButtonModule, DatePipe, UserNotesCardComponent],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
@@ -32,5 +33,9 @@ export class UserProfileComponent implements OnInit {
   setFavourite(){
     this.employeeService.updateEmployeeFavourite(this.user()!.email, !this.user()!.favourite);
     this.snackbar.open(`${this.user()!.name} is now ${!this.user()!.favourite ? 'a favourite' : 'unfavourite'}`, '', { duration: 5000 });
+  }
+
+  getUserNotes(){
+    return this.employeeService.getEmployeeNotes(this.user()!.email);
   }
 }

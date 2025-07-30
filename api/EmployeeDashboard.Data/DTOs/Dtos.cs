@@ -7,3 +7,5 @@ public record UserListDto(
     string Cell,
     string PictureUrl,
     DateTimeOffset Dob);
+    
+public record NoteDto(string Note);

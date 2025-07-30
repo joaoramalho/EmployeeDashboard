@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using EmployeeDashboard.Data;
 using EmployeeDashboard.Data.Model;
 using Microsoft.Extensions.Configuration;
 
@@ -24,5 +25,11 @@ public sealed class EmployeesService(IHttpClientFactory httpClientFactory, IConf
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public Task<List<string>> GetUserNotes(string email)
+    {
+        var notes = StaticData.employeeNotes;
+        return Task.FromResult(notes);
     }
 }

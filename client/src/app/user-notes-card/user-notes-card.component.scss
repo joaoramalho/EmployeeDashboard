@@ -1,0 +1,68 @@
+.notes-card {
+      margin: 16px 0;
+      max-width: 400px;
+      
+      .mat-card-header {
+        .mat-card-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          
+          .mat-icon {
+            color: #2196f3;
+          }
+        }
+      }
+    }
+
+    .loading-state, .empty-state {
+      text-align: center;
+      padding: 20px;
+      
+      .mat-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      
+      p {
+        color: #666;
+        margin: 0;
+      }
+    }
+
+    .notes-list {
+      .note-item {
+        margin: 8px 0;
+        
+        .mat-icon {
+          color: #666;
+          font-size: 18px;
+        }
+        
+        div[matListItemTitle] {
+          font-size: 14px;
+          line-height: 1.4;
+          color: #333;
+        }
+      }
+    }
+
+    .mat-card-actions {
+      display: flex;
+      gap: 8px;
+      
+      .mat-button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        
+        .mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }

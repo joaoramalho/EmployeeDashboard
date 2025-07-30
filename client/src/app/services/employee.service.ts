@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { UserList } from "../model/user-list";
-import { UserDetail } from "../model/user-detail";
-import { BehaviorSubject, Observable, tap, of } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 
 @Injectable({ providedIn: 'root'})
 export class EmployeeService {
@@ -51,7 +50,11 @@ export class EmployeeService {
         return stored ? JSON.parse(stored) : [];
     }
 
-    getEmployeeDetail(email: string): Observable<UserDetail>{
-        return this.http.get<UserDetail>(`http://localhost:5294/api/employees/${encodeURIComponent(email)}`);
+    getEmployeeNotes(email: string){
+        return this.http.get<string[]>(`http://localhost:5294/api/employees/${email}/notes`);
+    }
+
+    saveNote(email: string, note: string): Observable<string[]>{
+        return this.http.post<string[]>(`http://localhost:5294/api/employees/${email}/notes`, { note: note});
     }
 }
