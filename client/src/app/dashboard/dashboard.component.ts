@@ -13,14 +13,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime } from 'rxjs';
 
-export interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  department: string;
-  position: string;
-}
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -85,6 +77,30 @@ export class DashboardComponent implements OnInit {
       this.dataSource = this.originalData.filter(x => 
         x.name.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
+    }
+  }
+
+  toggleFavourite(event: Event, employee: UserList){
+    event.stopPropagation();
+    
+    // Update originalData first
+    const originalIndex = this.originalData.findIndex(x => x.email === employee.email);
+    if(originalIndex >= 0){
+      this.originalData[originalIndex] = {
+        ...this.originalData[originalIndex],
+        favourite: !this.originalData[originalIndex].favourite
+      };
+    }
+    
+    // Update dataSource with new array reference to trigger change detection
+    const employeeIndex = this.dataSource.findIndex(x => x.email === employee.email);
+    if(employeeIndex >= 0){
+      const updatedDataSource = [...this.dataSource];
+      updatedDataSource[employeeIndex] = {
+        ...updatedDataSource[employeeIndex],
+        favourite: !updatedDataSource[employeeIndex].favourite
+      };
+      this.dataSource = updatedDataSource;
     }
   }
 }

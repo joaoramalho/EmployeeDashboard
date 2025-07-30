@@ -60,8 +60,12 @@
                             @if (isLoading()) {
                                 <div class="skeleton-item"></div>
                             } @else {
-                                <button mat-icon-button color="primary">
-                                    <mat-icon>star</mat-icon>
+                                <button mat-icon-button color="primary" (click)="toggleFavourite($event, employee)">
+                                    @if(employee.favourite) {
+                                        <mat-icon>star</mat-icon>
+                                    } @else {
+                                        <mat-icon>star_border</mat-icon>
+                                    }
                                 </button>
                             }
                         </mat-cell>
