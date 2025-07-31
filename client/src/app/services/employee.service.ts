@@ -14,14 +14,6 @@ export class EmployeeService {
     }
 
     loadEmployees(): Observable<UserList[]> {
-        const storage = localStorage.getItem('Employees');
-        
-        if(storage){
-            const employees = JSON.parse(storage) as UserList[];
-            this.employeeList$.next(employees);
-            return this.employeeList$;
-        }
-
         return this.getEmployeeList().pipe(
             tap(employees => {
                 this.employeeList$.next(employees);
