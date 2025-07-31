@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Services"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Data", "EmployeeDashboard.Data\EmployeeDashboard.Data.csproj", "{46097435-149A-41E5-8B9D-B7192D5A2937}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDashboard.Tests", "EmployeeDashboard.Tests\EmployeeDashboard.Tests.csproj", "{7914CF2F-BAB0-45BF-AE0E-60842AF4CC6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{46097435-149A-41E5-8B9D-B7192D5A2937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46097435-149A-41E5-8B9D-B7192D5A2937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46097435-149A-41E5-8B9D-B7192D5A2937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7914CF2F-BAB0-45BF-AE0E-60842AF4CC6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7914CF2F-BAB0-45BF-AE0E-60842AF4CC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7914CF2F-BAB0-45BF-AE0E-60842AF4CC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7914CF2F-BAB0-45BF-AE0E-60842AF4CC6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
