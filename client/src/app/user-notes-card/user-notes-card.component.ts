@@ -1,4 +1,4 @@
-import { Component, input, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, input, signal, inject, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-user-notes-card',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCardModule, MatIconModule, MatButtonModule, MatListModule, CommonModule, ReactiveFormsModule],
   templateUrl: './user-notes-card.component.html',
   styleUrls: ['./user-notes-card.component.scss']

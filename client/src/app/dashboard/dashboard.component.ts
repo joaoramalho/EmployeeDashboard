@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatCardModule, MatTableModule, MatButtonModule, MatIconModule, ErrorRetryComponent],
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"]
@@ -25,8 +26,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DashboardComponent implements OnInit {
   searchInput = new FormControl('');
   displayedColumns: string[] = ['name', 'email', 'dob', 'favourite'];
-  dataSource: UserList[] = [];
-  filteredData: UserList[] = [];
+  dataSource = signal<UserList[]>([]);
+  filteredData = signal<UserList[]>([]);
   skeletonData: any[] = Array(5).fill({});
   isLoading = signal(true);
   hasError = signal(false);
@@ -45,8 +46,8 @@ export class DashboardComponent implements OnInit {
     this.employeeService.employees$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(employees => {
-        this.dataSource = employees;
-        this.filteredData = employees;
+        this.dataSource.set(employees);
+        this.filteredData.set(employees);
         this.isLoading.set(false);
         if (employees.length === 0) {
           this.loadEmployees();
@@ -82,11 +83,11 @@ export class DashboardComponent implements OnInit {
 
   filter(searchTerm: string | null){
     if(!searchTerm || searchTerm.trim() === ''){
-      this.filteredData = this.dataSource;
+      this.filteredData.set(this.dataSource());
     } else {
-      this.filteredData = this.dataSource.filter(x => 
+      this.filteredData.set(this.dataSource().filter(x => 
         x.name.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
-      );
+      ));
     }
   }
 

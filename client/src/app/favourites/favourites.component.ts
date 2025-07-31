@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy } from "@angular/core";
 import { EmployeeService } from "../services/employee.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { map, take, filter, switchMap } from "rxjs";
@@ -13,6 +13,7 @@ import { DatePipe } from "@angular/common";
 @Component({
     selector: 'favourites',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MatCardModule, MatIconModule, MatListModule, MatButtonModule, RouterModule, DatePipe],
     templateUrl: './favourites.component.html',
     styleUrls: ['./favourites.component.scss']
