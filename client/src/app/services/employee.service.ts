@@ -24,7 +24,6 @@ export class EmployeeService {
 
         return this.getEmployeeList().pipe(
             tap(employees => {
-                this.saveFavouritesToStorage(employees);
                 this.employeeList$.next(employees);
             })
         );
@@ -36,18 +35,6 @@ export class EmployeeService {
             emp.email === email ? { ...emp, favourite } : emp
         );
         this.employeeList$.next(updatedEmployees);
-        
-        // Persist to localStorage
-        this.saveFavouritesToStorage(updatedEmployees);
-    }
-
-    private saveFavouritesToStorage(employees: UserList[]): void {
-        localStorage.setItem('Employees', JSON.stringify(employees));
-    }
-
-    loadFavouritesFromStorage(): string[] {
-        const stored = localStorage.getItem('Employees');
-        return stored ? JSON.parse(stored) : [];
     }
 
     getEmployeeNotes(email: string){

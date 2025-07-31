@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,8 @@ import { EmployeeService } from '../services/employee.service';
 import { UserList } from '../model/user-list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserNotesCardComponent } from '../user-notes-card/user-notes-card.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map, filter } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -19,14 +21,39 @@ import { UserNotesCardComponent } from '../user-notes-card/user-notes-card.compo
 export class UserProfileComponent implements OnInit {
   user = signal<UserList | null>(null);
   private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
   employeeService = inject(EmployeeService);
   private snackbar = inject(MatSnackBar);
 
   ngOnInit(){
     const email = this.route.snapshot.paramMap.get('email');
     if (email) {
-      const users = JSON.parse(localStorage.getItem('Employees')!) as UserList[];
-      this.user.set(users.filter(x => x.email === email)[0]);
+      this.employeeService.employees$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter(employees => {
+            return employees.length > 0;
+          }),
+          map(employees => {
+            const user = employees.find(emp => emp.email === email);
+            return user || null;
+          })
+        )
+        .subscribe(user => {
+          this.user.set(user);
+        });
+
+      // Ensure data is loaded if BehaviorSubject is empty
+      this.employeeService.employees$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter(employees => employees.length === 0)
+        )
+        .subscribe(() => {
+          this.employeeService.loadEmployees()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+        });
     }
   }
 
